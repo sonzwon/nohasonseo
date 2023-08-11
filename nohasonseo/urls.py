@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', account.views.home, name='home'),
     path('account/', include('account.urls')),
-    # path('bookclub/', include('bookclub.urls')),
-    path('test/', account.views.test, name='test')
+    path('bookclub/', include('bookclub.urls')),
+    # path('test/', account.views.test, name='test')
 ]

@@ -82,12 +82,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'nohasonseo.wsgi.application'
 
 # 인증 모델
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'account.MyUser'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = local_setting.DATABASES
+# DATABASES = local_setting.DATABASES
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -134,5 +140,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # 로그인후
-ACCOUNT_SIGNUP_REDIRECT_URL = 'account/home'
-LOGIN_REDIRECT_URL = 'account/home'
+# ACCOUNT_SIGNUP_REDIRECT_URL = 'home'
+# LOGIN_REDIRECT_URL = 'home'
