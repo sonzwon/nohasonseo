@@ -1,7 +1,10 @@
 {% extends 'account/base.html' %}
 {% block title %} HOME {% endblock %}
 {% block content %}
+<h1>WELCOME TO NHSS</h1>
 <p>
-    WELCOME TO NHSS
+    {% if form %}
+어서오세요! {{form.email}}님
+{%endif%}
 </p>
 {% endblock %}

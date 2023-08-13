@@ -32,9 +32,9 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            login(request, form.clean())
-            request.session['remember_me'] = remember_me
-            return render(request, "account/home.html")
+            request.session['remember_me'] = form.remember_me
+            request.session.set_expiry(0)
+            return render(request, "account/home.html", {'form': form})
     else: #GET
         form = LoginForm()
         if request.user.is_authenticated:
@@ -42,5 +42,5 @@ def login_view(request):
     return render(request, 'account/login.html', {'form': form})
 
 def logout_view(request):
-    logout(request)
+    request.session.flush()
     return redirect('home')

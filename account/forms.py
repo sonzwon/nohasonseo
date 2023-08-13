@@ -2,7 +2,6 @@
 from django import forms
 from account.models import MyUser
 from argon2 import PasswordHasher, exceptions
-from django.contrib.auth import login
 
 
 class SignUpForm(forms.ModelForm):
@@ -107,15 +106,16 @@ class LoginForm(forms.Form):
 
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
+        remember_me = cleaned_data.get('remember_me')
 
         try:
             user = MyUser.objects.get(email=email)
-            if user.name == 'admin' and user.check_password(password):
-                return user
+            if user:
+                self.email = email
+                try:
+                    self.password = PasswordHasher().verify(user.password, password)
+                except exceptions.VerifyMismatchError:
+                    return self.add_error('password', '비밀번호가 다릅니다')
+                self.remember_me = remember_me
         except:
             return self.add_error('email', '사용자를 찾을 수 없습니다')
-
-        try:
-            PasswordHasher().verify(user.password, password)
-        except exceptions.VerifyMismatchError:
-            return self.add_error('password', '비밀번호가 다릅니다')
